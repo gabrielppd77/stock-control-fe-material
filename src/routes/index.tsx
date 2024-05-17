@@ -8,7 +8,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-    errorElement: <div>Erro inesperado</div>,
     children: [
       {
         path: "/",
