@@ -11,11 +11,11 @@ export default function Sidebar() {
   return (
     <Drawer open={true} variant="persistent">
       <Box
-        sx={(theme) => ({
-          bgcolor: theme.palette.primary.dark,
+        sx={{
+          bgcolor: "primary.dark",
           height: "100%",
-          color: theme.palette.primary.contrastText,
-        })}
+          color: "primary.contrastText",
+        }}
       >
         <Box
           sx={{

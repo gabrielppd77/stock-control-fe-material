@@ -1,10 +1,14 @@
-import { createBrowserRouter } from "react-router-dom";
+import {
+  RouterProvider as RouterProviderMain,
+  createBrowserRouter,
+} from "react-router-dom";
 
 import MainLayout from "../layout/MainLayout";
 
 import Home from "../pages/Home";
+import Supplier from "../pages/Supplier";
 
-const router = createBrowserRouter([
+const routes = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
@@ -15,7 +19,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/supplier",
-        element: <>Fornecedores</>,
+        element: <Supplier />,
       },
       {
         path: "/category",
@@ -29,4 +33,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-export default router;
+export default function RouterProvider() {
+  return <RouterProviderMain router={routes} />;
+}

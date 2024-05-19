@@ -20,13 +20,13 @@ export default function SideItem({ icon, title, link }: SideItemProps) {
       }}
     >
       <ListItem
-        sx={(theme) => ({
+        sx={{
           borderRadius: 1,
-          bgcolor: isSelected ? theme.palette.primary.main : "",
+          bgcolor: isSelected ? "primary.main" : "",
           transition: "background-color 0.3s ease",
           filter: isSelected ? "" : "brightness(70%)",
-          color: theme.palette.primary.contrastText,
-        })}
+          color: "primary.contrastText",
+        }}
         disableGutters
         disablePadding
       >

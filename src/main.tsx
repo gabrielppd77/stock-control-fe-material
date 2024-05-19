@@ -8,17 +8,17 @@ import "@fontsource/roboto/700.css";
 
 import CssBaseline from "@mui/material/CssBaseline";
 
-import { ThemeProvider } from "@mui/material";
-import { RouterProvider } from "react-router-dom";
-
-import theme from "./theme";
-import router from "./routes";
+import QueryClientProvider from "./providers/QueryClientProvider";
+import ThemeProvider from "./providers/ThemeProvider";
+import RouterProvider from "./providers/RouterProvider";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <QueryClientProvider>
+      <ThemeProvider>
+        <CssBaseline />
+        <RouterProvider />
+      </ThemeProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );

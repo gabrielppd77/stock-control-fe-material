@@ -7,11 +7,11 @@ export default function Appbar() {
     <AppBar
       position="fixed"
       elevation={0}
-      sx={(theme) => ({
+      sx={{
         width: `calc(100% - ${drawerWidth}px)`,
         ml: `${drawerWidth}px`,
-        bgcolor: theme.palette.background.default,
-      })}
+        bgcolor: "background.default",
+      }}
     >
       <Toolbar></Toolbar>
       <Divider />

@@ -1,15 +1,14 @@
 import { Box } from "@mui/material";
+import PageHeader from "../../components/PageHeader";
 
 export default function Home() {
   return (
     <Box
       sx={{
-        p: 1,
+        p: 2,
       }}
     >
-      <button style={{ backgroundColor: "red", width: 300, height: 300 }}>
-        here
-      </button>
+      <PageHeader title="Bem vindo!" />
     </Box>
   );
 }
