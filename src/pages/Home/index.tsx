@@ -1,16 +1,15 @@
-import useMenuStore from "../../store/useMenuStore";
+import { Box } from "@mui/material";
 
 export default function Home() {
-  const { toggleOpen } = useMenuStore();
-
   return (
-    <div>
-      <button
-        style={{ backgroundColor: "red", width: 300, height: 300 }}
-        onClick={() => toggleOpen()}
-      >
+    <Box
+      sx={{
+        p: 1,
+      }}
+    >
+      <button style={{ backgroundColor: "red", width: 300, height: 300 }}>
         here
       </button>
-    </div>
+    </Box>
   );
 }
