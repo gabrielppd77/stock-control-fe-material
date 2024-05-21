@@ -14,7 +14,19 @@ const theme = createTheme({
       defaultProps: {
         color: "primary",
         variant: "contained",
+        size: "small",
         style: { textTransform: "none" },
+      },
+    },
+    MuiIcon: {
+      defaultProps: {
+        fontSize: "small",
+      },
+    },
+    MuiIconButton: {
+      defaultProps: {
+        size: "small",
+        color: "primary",
       },
     },
   },

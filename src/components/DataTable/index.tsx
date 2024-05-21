@@ -1,20 +1,27 @@
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import {
   Box,
   CircularProgress,
   LinearProgress,
   Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  SxProps,
 } from "@mui/material";
+
+interface DataTableColumOptions<TData> {
+  customBodyRender?: (value: TData[string & keyof TData]) => React.ReactNode;
+  sxHeader?: SxProps;
+}
 
 interface DataTableColumProps<TData> {
   name: keyof TData extends string ? keyof TData : never;
   label: string;
+  options?: DataTableColumOptions<TData>;
 }
 
 interface DataTableProps<TData> {
@@ -31,54 +38,68 @@ export default function DataTable<TData>({
   isFetching,
 }: DataTableProps<TData>) {
   return (
-    <TableContainer component={Paper}>
+    <Box>
       <Box sx={{ height: 4 }}>{isFetching && <LinearProgress />}</Box>
-      <Table size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            {columns.map((col) => (
-              <TableCell
-                sx={{
-                  bgcolor: "primary.dark",
-                  color: "primary.contrastText",
-                }}
-              >
-                {col.label}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {isLoading ? (
+      <TableContainer component={Paper}>
+        <Table size="small" stickyHeader>
+          <TableHead>
             <TableRow>
-              <TableCell>
-                <Box
+              {columns.map((col) => (
+                <TableCell
                   sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: 2,
-                    gap: 2,
+                    color: "primary.contrastText",
+                    bgcolor: "primary.dark",
+                    ...col.options?.sxHeader,
                   }}
+                  key={"head" + col.name}
                 >
-                  <Typography variant="h5">Carregando...</Typography>
-                  <CircularProgress />
-                </Box>
-              </TableCell>
+                  {col.label}
+                </TableCell>
+              ))}
             </TableRow>
-          ) : (
-            data.map((row, index) => (
-              <TableRow key={"row" + index}>
-                {columns.map((col) => (
-                  <TableCell key={"col" + index}>
-                    <>{row[col.name]}</>
-                  </TableCell>
-                ))}
+          </TableHead>
+          <TableBody>
+            {isLoading ? (
+              <TableRow>
+                <TableCell>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: 2,
+                      gap: 2,
+                    }}
+                  >
+                    <Typography variant="h5">Carregando...</Typography>
+                    <CircularProgress />
+                  </Box>
+                </TableCell>
               </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
-    </TableContainer>
+            ) : (
+              data.map((row, index) => (
+                <TableRow key={"body-row" + index}>
+                  {columns.map(({ name, options }) => {
+                    const { customBodyRender } = options || {};
+
+                    const render = customBodyRender ? (
+                      customBodyRender(row[name])
+                    ) : (
+                      <>{row[name]}</>
+                    );
+
+                    return (
+                      <TableCell key={"body-col" + index + name}>
+                        {render}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 }

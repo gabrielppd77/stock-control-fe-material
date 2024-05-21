@@ -31,10 +31,15 @@ export default function SideItem({ icon, title, link }: SideItemProps) {
         disablePadding
       >
         <ListItemButton
-          sx={{ px: 2, py: 0.5, display: "flex", gap: 1 }}
+          sx={{
+            px: 2,
+            py: 0.5,
+            display: "flex",
+            gap: 1,
+          }}
           disableGutters
         >
-          <Icon fontSize="small">{icon}</Icon>
+          <Icon>{icon}</Icon>
 
           <ListItemText primary={title} />
         </ListItemButton>

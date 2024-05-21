@@ -1,0 +1,5 @@
+.swal2-container {
+  position: absolute !important;
+  pointer-events: auto;
+  z-index: 1201;
+}
