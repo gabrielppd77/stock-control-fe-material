@@ -1,105 +1,57 @@
-import {
-  Box,
-  CircularProgress,
-  LinearProgress,
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  SxProps,
-} from "@mui/material";
+import { Box, CircularProgress, LinearProgress } from "@mui/material";
 
-interface DataTableColumOptions<TData> {
-  customBodyRender?: (value: TData[string & keyof TData]) => React.ReactNode;
-  sxHeader?: SxProps;
-}
+import MUIDataTable, { MUIDataTableColumnDef } from "mui-datatables";
 
-interface DataTableColumProps<TData> {
-  name: keyof TData extends string ? keyof TData : never;
-  label: string;
-  options?: DataTableColumOptions<TData>;
-}
+export type DataTableColumn = MUIDataTableColumnDef;
 
-interface DataTableProps<TData> {
-  data: TData[];
-  columns: DataTableColumProps<TData>[];
+interface DataTableProps {
+  data: Array<object | number[] | string[]>;
+  columns: DataTableColumn[];
   isLoading: boolean;
   isFetching: boolean;
 }
 
-export default function DataTable<TData>({
+export default function DataTable({
   data,
   columns,
   isLoading,
   isFetching,
-}: DataTableProps<TData>) {
+}: DataTableProps) {
   return (
     <Box>
       <Box sx={{ height: 4 }}>{isFetching && <LinearProgress />}</Box>
-      <TableContainer component={Paper}>
-        <Table size="small" stickyHeader>
-          <TableHead>
-            <TableRow>
-              {columns.map((col) => (
-                <TableCell
-                  sx={{
-                    color: "primary.contrastText",
-                    bgcolor: "primary.dark",
-                    ...col.options?.sxHeader,
-                  }}
-                  key={"head" + col.name}
-                >
-                  {col.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {isLoading ? (
-              <TableRow>
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: 2,
-                      gap: 2,
-                    }}
-                  >
-                    <Typography variant="h5">Carregando...</Typography>
-                    <CircularProgress />
-                  </Box>
-                </TableCell>
-              </TableRow>
-            ) : (
-              data.map((row, index) => (
-                <TableRow key={"body-row" + index}>
-                  {columns.map(({ name, options }) => {
-                    const { customBodyRender } = options || {};
-
-                    const render = customBodyRender ? (
-                      customBodyRender(row[name])
-                    ) : (
-                      <>{row[name]}</>
-                    );
-
-                    return (
-                      <TableCell key={"body-col" + index + name}>
-                        {render}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <MUIDataTable
+        title=""
+        data={data}
+        columns={columns}
+        options={{
+          download: false,
+          print: false,
+          filter: false,
+          search: false,
+          viewColumns: false,
+          responsive: "simple",
+          selectableRows: "none",
+          selectToolbarPlacement: "none",
+          textLabels: {
+            body: {
+              noMatch: isLoading ? (
+                <CircularProgress />
+              ) : (
+                "Desculpe, não foi possível encontrar os registros"
+              ),
+              toolTip: "Ordernar",
+              columnHeaderTooltip: (column) => `Ordernar por ${column.label}`,
+            },
+            pagination: {
+              next: "Próxima Página",
+              previous: "Página Anterior",
+              rowsPerPage: "Linhas por Página:",
+              displayRows: "de",
+            },
+          },
+        }}
+      />
     </Box>
   );
 }

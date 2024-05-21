@@ -1,4 +1,12 @@
-import { Box, Divider, Drawer, List, Toolbar, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Drawer,
+  List,
+  Stack,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { AutoStories } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
@@ -57,17 +65,12 @@ export default function Sidebar() {
               py: 1,
             }}
           >
-            <List
-              disablePadding
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 1,
-              }}
-            >
-              {menu.map(({ title, icon, link }) => (
-                <SideItem key={link} title={title} icon={icon} link={link} />
-              ))}
+            <List disablePadding>
+              <Stack gap={1}>
+                {menu.map(({ title, icon, link }) => (
+                  <SideItem key={link} title={title} icon={icon} link={link} />
+                ))}
+              </Stack>
             </List>
           </Box>
         </Box>

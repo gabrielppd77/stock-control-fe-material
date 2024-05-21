@@ -29,6 +29,11 @@ const theme = createTheme({
         color: "primary",
       },
     },
+    MuiTextField: {
+      defaultProps: {
+        size: "small",
+      },
+    },
   },
 });
 
