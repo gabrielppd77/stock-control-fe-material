@@ -1,13 +1,26 @@
-import { Box, Toolbar } from "@mui/material";
+import { Box, Theme, Toolbar, useMediaQuery } from "@mui/material";
 
 import { Outlet } from "react-router-dom";
 
 import Appbar from "./Appbar";
 import Sidebar from "./Sidebar";
 
-import { drawerWidth } from "../../store/constants";
+import { drawerWidthOpen, drawerWidthClose } from "../../store/constants";
+
+import useMenuStore from "@store/useMenuStore";
 
 export default function MainLayout() {
+  const { open } = useMenuStore();
+  const isSmallScreen = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("sm")
+  );
+
+  const drawerWidth = isSmallScreen
+    ? 0
+    : open
+    ? drawerWidthOpen
+    : drawerWidthClose;
+
   return (
     <Box>
       <Appbar />

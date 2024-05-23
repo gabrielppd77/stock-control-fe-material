@@ -1,19 +1,53 @@
-import { AppBar, Divider, Toolbar } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Divider,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 
-import { drawerWidth } from "../../../store/constants";
+import { Menu } from "@mui/icons-material";
+import useMenuStore from "@store/useMenuStore";
+import { Link } from "react-router-dom";
 
 export default function Appbar() {
+  const { toggleOpen } = useMenuStore();
+
   return (
     <AppBar
       position="fixed"
-      elevation={0}
+      elevation={1}
       sx={{
-        width: `calc(100% - ${drawerWidth}px)`,
-        ml: `${drawerWidth}px`,
-        bgcolor: "background.default",
+        bgcolor: "primary.dark",
+        zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
-      <Toolbar></Toolbar>
+      <Toolbar>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 1,
+            color: "primary.contrastText",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <IconButton onClick={toggleOpen}>
+            <Menu />
+          </IconButton>
+          <Link
+            to="/"
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <Typography sx={{ color: "primary.contrastText" }}>
+              Controle Estoque
+            </Typography>
+          </Link>
+        </Box>
+      </Toolbar>
       <Divider />
     </AppBar>
   );

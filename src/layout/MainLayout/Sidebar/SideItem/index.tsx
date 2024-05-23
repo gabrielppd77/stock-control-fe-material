@@ -1,13 +1,25 @@
-import { Icon, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import {
+  Icon,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Tooltip,
+} from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 
 interface SideItemProps {
   icon: string;
   title: string;
   link: string;
+  showText: boolean;
 }
 
-export default function SideItem({ icon, title, link }: SideItemProps) {
+export default function SideItem({
+  icon,
+  title,
+  link,
+  showText,
+}: SideItemProps) {
   const { pathname } = useLocation();
 
   const isSelected = pathname == link;
@@ -19,31 +31,34 @@ export default function SideItem({ icon, title, link }: SideItemProps) {
         textDecoration: "none",
       }}
     >
-      <ListItem
-        sx={{
-          borderRadius: 1,
-          bgcolor: isSelected ? "primary.main" : "",
-          transition: "background-color 0.3s ease",
-          filter: isSelected ? "" : "brightness(70%)",
-          color: "primary.contrastText",
-        }}
-        disableGutters
-        disablePadding
-      >
-        <ListItemButton
+      <Tooltip title={showText ? "" : title} placement="right" arrow>
+        <ListItem
           sx={{
-            px: 2,
-            py: 0.5,
-            display: "flex",
-            gap: 1,
+            borderRadius: 1,
+            bgcolor: isSelected ? "primary.main" : "",
+            transition: "background-color 0.3s ease",
+            filter: isSelected ? "" : "brightness(70%)",
+            color: "primary.contrastText",
+            height: 40,
           }}
           disableGutters
+          disablePadding
         >
-          <Icon>{icon}</Icon>
+          <ListItemButton
+            sx={{
+              px: 2,
+              py: 0.5,
+              display: "flex",
+              gap: 1,
+            }}
+            disableGutters
+          >
+            <Icon>{icon}</Icon>
 
-          <ListItemText primary={title} />
-        </ListItemButton>
-      </ListItem>
+            {showText && <ListItemText primary={title} />}
+          </ListItemButton>
+        </ListItem>
+      </Tooltip>
     </Link>
   );
 }

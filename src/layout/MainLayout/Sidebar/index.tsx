@@ -1,78 +1,66 @@
 import {
   Box,
-  Divider,
   Drawer,
   List,
   Stack,
+  Theme,
   Toolbar,
-  Typography,
+  useMediaQuery,
 } from "@mui/material";
-import { AutoStories } from "@mui/icons-material";
-import { Link } from "react-router-dom";
 
 import SideItem from "./SideItem";
 
-import { drawerWidth } from "../../../store/constants";
+import { drawerWidthOpen, drawerWidthClose } from "../../../store/constants";
 import menu from "../../../store/menu";
+import useMenuStore from "@store/useMenuStore";
 
 export default function Sidebar() {
+  const { open, toggleOpen } = useMenuStore();
+
+  const drawerWidth = open ? drawerWidthOpen : drawerWidthClose;
+
+  const isSmallScreen = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("sm")
+  );
+
   return (
-    <Drawer open={true} variant="persistent">
+    <Drawer
+      open={open}
+      variant={isSmallScreen ? "temporary" : "permanent"}
+      onClose={toggleOpen}
+    >
       <Box
-        sx={{
+        sx={(theme) => ({
           bgcolor: "primary.dark",
           height: "100%",
           color: "primary.contrastText",
-        }}
+          width: drawerWidth + "px",
+          transition: theme.transitions.create(["margin", "width"], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
+        })}
       >
+        <Toolbar />
         <Box
           sx={{
-            width: drawerWidth + "px",
+            px: 2,
+            py: 1,
           }}
         >
-          <Toolbar>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Link
-                to="/"
-                style={{
-                  textDecoration: "none",
-                }}
-              >
-                <Box
-                  sx={(theme) => ({
-                    display: "flex",
-                    gap: 1,
-                    color: theme.palette.primary.contrastText,
-                  })}
-                >
-                  <AutoStories />
-                  <Typography>Estoque</Typography>
-                </Box>
-              </Link>
-            </Box>
-          </Toolbar>
-          <Divider color="gray" />
-          <Box
-            sx={{
-              px: 2,
-              py: 1,
-            }}
-          >
-            <List disablePadding>
-              <Stack gap={1}>
-                {menu.map(({ title, icon, link }) => (
-                  <SideItem key={link} title={title} icon={icon} link={link} />
-                ))}
-              </Stack>
-            </List>
-          </Box>
+          <List disablePadding>
+            <Stack gap={1}>
+              {menu.map(({ title, icon, link }) => (
+                <SideItem
+                  key={link}
+                  title={title}
+                  icon={icon}
+                  link={link}
+                  showText={open}
+                />
+              ))}
+            </Stack>
+          </List>
         </Box>
       </Box>
     </Drawer>
