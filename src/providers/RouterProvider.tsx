@@ -9,6 +9,7 @@ import Home from "../pages/Home";
 import Supplier from "../pages/Supplier";
 import Category from "@pages/Category";
 import Product from "@pages/Product";
+import Group from "@pages/Group";
 
 const routes = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const routes = createBrowserRouter([
       {
         path: "/category",
         element: <Category />,
+      },
+      {
+        path: "/group",
+        element: <Group />,
       },
       {
         path: "/product",

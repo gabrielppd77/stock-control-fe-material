@@ -16,6 +16,11 @@ const menu: MenuProps[] = [
     link: "/category",
   },
   {
+    title: "Grupos",
+    icon: "groups",
+    link: "/group",
+  },
+  {
     title: "Produtos",
     icon: "inventory",
     link: "/product",
