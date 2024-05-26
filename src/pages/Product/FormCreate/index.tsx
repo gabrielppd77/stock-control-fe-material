@@ -1,8 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
-import TextFieldControl from "@components/TextFieldControl";
+import { Stack } from "@mui/material";
+
 import ActionDialog from "@components/ActionDialog";
+import TextFieldControl from "@components/TextFieldControl";
+import AutoCompleteSupplier from "@components/AutoCompleteSupplier";
+import AutoCompleteCategory from "@components/AutoCompleteCategory";
+import AutoCompleteGroup from "@components/AutoCompleteGroup";
 
 import { useProductCreate } from "@libs/api/queries/product/useProduct";
 import { schema, useDialogCreate } from "./form";
@@ -14,7 +19,14 @@ export default function FormCreate() {
 
   const form = useForm({
     resolver: zodResolver(schema),
-    defaultValues: { name: "" },
+    defaultValues: {
+      name: "",
+      groupId: "",
+      supplierId: "",
+      categoryId: "",
+      nrClient: "",
+      observation: "",
+    },
   });
 
   return (
@@ -30,7 +42,14 @@ export default function FormCreate() {
       })}
     >
       <FormProvider {...form}>
-        <TextFieldControl label="Nome" name="name" />
+        <Stack gap={1}>
+          <TextFieldControl label="Nome" name="name" />
+          <AutoCompleteSupplier name="supplierId" />
+          <AutoCompleteCategory name="categoryId" />
+          <AutoCompleteGroup name="groupId" />
+          <TextFieldControl label="Número do Cliente" name="nrClient" />
+          <TextFieldControl label="Observação" name="observation" />
+        </Stack>
       </FormProvider>
     </ActionDialog>
   );

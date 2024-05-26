@@ -3,8 +3,12 @@ import { Stack } from "@mui/material";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
-import TextFieldControl from "@components/TextFieldControl";
 import ActionDialog from "@components/ActionDialog";
+import TextFieldControl from "@components/TextFieldControl";
+import AutoCompleteSupplier from "@components/AutoCompleteSupplier";
+import AutoCompleteCategory from "@components/AutoCompleteCategory";
+import AutoCompleteGroup from "@components/AutoCompleteGroup";
+import SelectFieldStatus from "@components/SelectFieldStatus";
 
 import { useProductUpdate } from "@libs/api/queries/product/useProduct";
 import { schema, useDialogUpdate } from "./form";
@@ -35,6 +39,12 @@ export default function FormUpdate() {
         <Stack gap={1}>
           <TextFieldControl label="Código" name="code" type="number" />
           <TextFieldControl label="Nome" name="name" />
+          <AutoCompleteSupplier name="supplierId" />
+          <AutoCompleteCategory name="categoryId" />
+          <AutoCompleteGroup name="groupId" />
+          <TextFieldControl label="Número do Cliente" name="nrClient" />
+          <TextFieldControl label="Observação" name="observation" />
+          <SelectFieldStatus name="status" />
         </Stack>
       </FormProvider>
     </ActionDialog>
