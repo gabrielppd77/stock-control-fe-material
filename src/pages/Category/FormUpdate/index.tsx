@@ -6,11 +6,11 @@ import { FormProvider, useForm } from "react-hook-form";
 import TextFieldControl from "@components/TextFieldControl";
 import ActionDialog from "@components/ActionDialog";
 
-import { useSupplierUpdate } from "@libs/api/queries/supplier/useSupplier";
+import { useCategoryUpdate } from "@libs/api/queries/category/useCategory";
 import { schema, useDialogUpdate } from "./form";
 
 export default function FormUpdate() {
-  const { mutateAsyncUpdate, isLoadingUpdate } = useSupplierUpdate();
+  const { mutateAsyncUpdate, isLoadingUpdate } = useCategoryUpdate();
 
   const { isOpen, close, data } = useDialogUpdate();
 
@@ -21,7 +21,7 @@ export default function FormUpdate() {
 
   return (
     <ActionDialog
-      title="Atualizar Fornecedor"
+      title="Atualizar Categoria"
       maxWidth="xs"
       isLoading={isLoadingUpdate}
       isOpen={isOpen}

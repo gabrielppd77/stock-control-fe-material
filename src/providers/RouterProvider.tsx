@@ -7,6 +7,7 @@ import MainLayout from "../layout/MainLayout";
 
 import Home from "../pages/Home";
 import Supplier from "../pages/Supplier";
+import Category from "@pages/Category";
 
 const routes = createBrowserRouter([
   {
@@ -23,7 +24,7 @@ const routes = createBrowserRouter([
       },
       {
         path: "/category",
-        element: <>Categorias</>,
+        element: <Category />,
       },
       {
         path: "/product",

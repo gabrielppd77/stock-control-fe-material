@@ -3,9 +3,9 @@ import Swal, { SweetAlertIcon } from "sweetalert2";
 import { AxiosError, HttpStatusCode } from "axios";
 
 interface ResponseData {
-  statusCode: HttpStatusCode;
-  message: string | string[];
-  error?: string;
+  status: HttpStatusCode;
+  detail: string | string[];
+  title?: string;
 }
 
 export function extractError(err: unknown) {
@@ -15,14 +15,12 @@ export function extractError(err: unknown) {
 
   if (err instanceof AxiosError) {
     const data: ResponseData | undefined = err?.response?.data;
+    console.log({ err });
     if (data) {
-      title = data.statusCode + " " + (data.error || title);
+      title = data.status + " " + (data.title || title);
       text =
-        typeof data.message === "string"
-          ? data.message
-          : data.message.join(",");
-      icon =
-        data.statusCode === HttpStatusCode.BadRequest ? "warning" : "error";
+        typeof data.detail === "string" ? data.detail : data.detail.join(",");
+      icon = data.status === HttpStatusCode.BadRequest ? "warning" : "error";
     }
   }
 
