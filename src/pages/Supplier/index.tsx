@@ -1,10 +1,8 @@
-import React from "react";
-
 import { Button, IconButton, Stack } from "@mui/material";
-
-import PageHeader from "../../components/PageHeader";
-
 import { Delete, Edit } from "@mui/icons-material";
+
+import PageHeader from "@components/PageHeader";
+import DataTable from "@components/DataTable";
 
 import {
   useSupplierDelete,
@@ -12,26 +10,37 @@ import {
 } from "@libs/api/queries/supplier/useSupplier";
 import { confirmDelete } from "@libs/alert";
 
-import DataTable from "@components/DataTable";
-
 import FormCreate from "./FormCreate";
 import FormUpdate from "./FormUpdate";
+import { useDialogCreate } from "./FormCreate/form";
+import { useDialogUpdate } from "./FormUpdate/form";
 
 export default function Supplier() {
   const { data, isLoading, isFetching } = useSupplierQuery();
   const { mutateAsyncDelete, isLoadingDelete } = useSupplierDelete();
 
-  const [isOpen, setOpen] = React.useState(false);
-  const [isOpenUpdate, setOpenUpdate] = React.useState(false);
+  const { open: openCreate, isOpen: isOpenCreate } = useDialogCreate();
+  const { open: openUpdate, isOpen: isOpenUpdate } = useDialogUpdate();
 
   return (
     <Stack gap={1} p={2}>
       <PageHeader
         title="Fornecedores"
-        renderRight={<Button onClick={() => setOpen(true)}>Adicionar</Button>}
+        renderRight={<Button onClick={() => openCreate()}>Adicionar</Button>}
       />
       <DataTable
         columns={[
+          {
+            name: "code",
+            label: "Código",
+            options: {
+              setCellProps: () => ({
+                sx: {
+                  width: 120,
+                },
+              }),
+            },
+          },
           {
             name: "name",
             label: "Nome",
@@ -47,11 +56,14 @@ export default function Supplier() {
                 },
               }),
               customBodyRender: (value) => {
-                const dt = data?.find((d) => d.id === value);
-                if (!dt) return;
                 return (
                   <Stack direction="row" gap={0.5}>
-                    <IconButton onClick={() => setOpenUpdate(true)}>
+                    <IconButton
+                      onClick={() => {
+                        const dt = data?.find((d) => d.id === value);
+                        openUpdate(dt);
+                      }}
+                    >
                       <Edit />
                     </IconButton>
 
@@ -75,8 +87,8 @@ export default function Supplier() {
         isFetching={isFetching || isLoadingDelete}
       />
 
-      <FormCreate onClose={() => setOpen(false)} isOpen={isOpen} />
-      <FormUpdate onClose={() => setOpenUpdate(false)} isOpen={isOpenUpdate} />
+      {isOpenCreate && <FormCreate />}
+      {isOpenUpdate && <FormUpdate />}
     </Stack>
   );
 }

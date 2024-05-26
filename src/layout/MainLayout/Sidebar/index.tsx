@@ -12,7 +12,7 @@ import SideItem from "./SideItem";
 
 import { drawerWidthOpen, drawerWidthClose } from "../../../store/constants";
 import menu from "../../../store/menu";
-import useMenuStore from "@store/useMenuStore";
+import { useMenuStore } from "@hooks/useMenuStore";
 
 export default function Sidebar() {
   const { open, toggleOpen } = useMenuStore();

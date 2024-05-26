@@ -1,44 +1,32 @@
-import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
 
 import TextFieldControl from "@components/TextFieldControl";
-
-import { useSupplierCreate } from "@libs/api/queries/supplier/useSupplier";
 import ActionDialog from "@components/ActionDialog";
 
-import { FormProvider, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useSupplierCreate } from "@libs/api/queries/supplier/useSupplier";
+import { schema, useDialogCreate } from "./form";
 
-const schema = z.object({
-  name: z.string().min(1, { message: "Informe o nome" }),
-});
-
-type FormType = z.infer<typeof schema>;
-
-interface FormProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export default function FormCreate({ isOpen, onClose }: FormProps) {
+export default function FormCreate() {
   const { mutateAsyncCreate, isLoadingCreate } = useSupplierCreate();
 
-  const defaultValues: FormType = { name: "" };
+  const { isOpen, close } = useDialogCreate();
 
   const form = useForm({
     resolver: zodResolver(schema),
-    defaultValues,
+    defaultValues: { name: "" },
   });
 
   return (
     <ActionDialog
-      title="Cadastro"
+      title="Cadastro de Fornecedor"
       maxWidth="xs"
       isLoading={isLoadingCreate}
       isOpen={isOpen}
-      onClose={onClose}
-      onSubmit={form.handleSubmit(async (d) => {
-        await mutateAsyncCreate(d);
-        onClose();
+      onClose={() => close()}
+      onSubmit={form.handleSubmit(async (data) => {
+        await mutateAsyncCreate(data);
+        close();
       })}
     >
       <FormProvider {...form}>

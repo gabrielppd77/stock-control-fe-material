@@ -1,7 +1,7 @@
-import { TextField } from "@mui/material";
+import { TextField, TextFieldProps } from "@mui/material";
 import { Controller } from "react-hook-form";
 
-interface TextFieldControlProps {
+interface TextFieldControlProps extends Omit<TextFieldProps, "label" | "name"> {
   label: string;
   name: string;
 }
@@ -9,6 +9,8 @@ interface TextFieldControlProps {
 export default function TextFieldControl({
   label,
   name,
+  type,
+  ...restProps
 }: TextFieldControlProps) {
   return (
     <Controller
@@ -17,9 +19,17 @@ export default function TextFieldControl({
         <TextField
           helperText={error ? error.message : null}
           error={!!error}
-          onChange={onChange}
+          type={type}
+          onChange={(e) => {
+            const v =
+              type === "number"
+                ? parseInt(e.target.value || "0")
+                : e.target.value;
+            onChange(v);
+          }}
           value={value}
           label={label}
+          {...restProps}
         />
       )}
     />

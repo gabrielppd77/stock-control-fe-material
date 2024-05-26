@@ -7,7 +7,7 @@ import Sidebar from "./Sidebar";
 
 import { drawerWidthOpen, drawerWidthClose } from "../../store/constants";
 
-import useMenuStore from "@store/useMenuStore";
+import { useMenuStore } from "@hooks/useMenuStore";
 
 export default function MainLayout() {
   const { open } = useMenuStore();

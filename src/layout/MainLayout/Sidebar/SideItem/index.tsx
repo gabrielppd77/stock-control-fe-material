@@ -50,6 +50,8 @@ export default function SideItem({
               py: 0.5,
               display: "flex",
               gap: 1,
+              height: "100%",
+              borderRadius: 1,
             }}
             disableGutters
           >

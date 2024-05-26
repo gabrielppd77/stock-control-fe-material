@@ -1,48 +1,36 @@
-import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
 
 import TextFieldControl from "@components/TextFieldControl";
-
-import { useSupplierCreate } from "@libs/api/queries/supplier/useSupplier";
 import ActionDialog from "@components/ActionDialog";
 
-import { FormProvider, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useSupplierUpdate } from "@libs/api/queries/supplier/useSupplier";
+import { schema, useDialogUpdate } from "./form";
 
-const schema = z.object({
-  id: z.string(),
-  name: z.string().min(1, { message: "Informe o nome" }),
-});
+export default function FormUpdate() {
+  const { mutateAsyncUpdate, isLoadingUpdate } = useSupplierUpdate();
 
-type FormType = z.infer<typeof schema>;
-
-interface FormProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export default function FormUpdate({ isOpen, onClose }: FormProps) {
-  const { mutateAsyncCreate, isLoadingCreate } = useSupplierCreate();
-
-  const defaultValues: FormType = { id: "", name: "" };
+  const { isOpen, close, data } = useDialogUpdate();
 
   const form = useForm({
     resolver: zodResolver(schema),
-    defaultValues,
+    defaultValues: data,
   });
 
   return (
     <ActionDialog
-      title="Atualizar Cadastro"
+      title="Atualizar Fornecedor"
       maxWidth="xs"
-      isLoading={isLoadingCreate}
+      isLoading={isLoadingUpdate}
       isOpen={isOpen}
-      onClose={onClose}
-      onSubmit={form.handleSubmit(async (d) => {
-        await mutateAsyncCreate(d);
-        onClose();
+      onClose={() => close()}
+      onSubmit={form.handleSubmit(async ({ id, ...data }) => {
+        await mutateAsyncUpdate({ id, data });
+        close();
       })}
     >
       <FormProvider {...form}>
+        <TextFieldControl label="Código" name="code" type="number" />
         <TextFieldControl label="Nome" name="name" />
       </FormProvider>
     </ActionDialog>

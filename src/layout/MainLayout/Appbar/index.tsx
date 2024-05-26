@@ -8,8 +8,8 @@ import {
 } from "@mui/material";
 
 import { Menu } from "@mui/icons-material";
-import useMenuStore from "@store/useMenuStore";
 import { Link } from "react-router-dom";
+import { useMenuStore } from "@hooks/useMenuStore";
 
 export default function Appbar() {
   const { toggleOpen } = useMenuStore();
