@@ -1,5 +1,5 @@
-import { Button, IconButton, Stack } from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
+import { Box, Button, IconButton, Stack, Tooltip } from "@mui/material";
+import { Circle, Delete, Edit } from "@mui/icons-material";
 
 import PageHeader from "@components/PageHeader";
 import DataTable from "@components/DataTable";
@@ -14,6 +14,11 @@ import FormCreate from "./FormCreate";
 import FormUpdate from "./FormUpdate";
 import { useDialogCreate } from "./FormCreate/form";
 import { useDialogUpdate } from "./FormUpdate/form";
+import {
+  ProductStatusEnum,
+  ProductStatusEnumColor,
+  ProductStatusEnumLabel,
+} from "@libs/api/enums/ProductStatusEnum";
 
 export default function Product() {
   const { data, isLoading, isFetching } = useProductQuery();
@@ -46,6 +51,31 @@ export default function Product() {
             label: "Nome",
           },
           {
+            name: "status",
+            label: "Status",
+            options: {
+              setCellProps: () => ({
+                sx: {
+                  width: 120,
+                },
+              }),
+              customBodyRender: (value: ProductStatusEnum) => (
+                <Tooltip title={ProductStatusEnumLabel[value]}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: ProductStatusEnumColor[value],
+                    }}
+                  >
+                    <Circle />
+                  </Box>
+                </Tooltip>
+              ),
+            },
+          },
+          {
             name: "id",
             label: "Ações",
             options: {
@@ -55,30 +85,26 @@ export default function Product() {
                   width: 120,
                 },
               }),
-              customBodyRender: (value) => {
-                return (
-                  <Stack direction="row" gap={0.5}>
-                    <IconButton
-                      onClick={() => {
-                        const dt = data?.find((d) => d.id === value);
-                        openUpdate(dt);
-                      }}
-                    >
-                      <Edit />
-                    </IconButton>
+              customBodyRender: (value) => (
+                <Stack direction="row" gap={0.5}>
+                  <IconButton
+                    onClick={() => {
+                      const dt = data?.find((d) => d.id === value);
+                      openUpdate(dt);
+                    }}
+                  >
+                    <Edit />
+                  </IconButton>
 
-                    <IconButton
-                      onClick={() =>
-                        confirmDelete(
-                          async () => await mutateAsyncDelete(value)
-                        )
-                      }
-                    >
-                      <Delete />
-                    </IconButton>
-                  </Stack>
-                );
-              },
+                  <IconButton
+                    onClick={() =>
+                      confirmDelete(async () => await mutateAsyncDelete(value))
+                    }
+                  >
+                    <Delete />
+                  </IconButton>
+                </Stack>
+              ),
             },
           },
         ]}

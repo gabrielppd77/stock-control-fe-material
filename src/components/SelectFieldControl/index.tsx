@@ -13,7 +13,7 @@ interface SelectFieldProps extends Omit<TextFieldProps, "label" | "name"> {
   options: SelectFieldOption[];
 }
 
-export default function SelectField({
+export default function SelectFieldControl({
   label,
   name,
   options,

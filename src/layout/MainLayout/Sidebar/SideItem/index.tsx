@@ -31,7 +31,7 @@ export default function SideItem({
         textDecoration: "none",
       }}
     >
-      <Tooltip title={showText ? "" : title} placement="right" arrow>
+      <Tooltip title={showText ? "" : title} placement="right">
         <ListItem
           sx={{
             borderRadius: 1,

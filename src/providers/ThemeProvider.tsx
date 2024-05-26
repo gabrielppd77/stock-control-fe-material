@@ -35,6 +35,11 @@ const theme = createTheme({
         fullWidth: true,
       },
     },
+    MuiTooltip: {
+      defaultProps: {
+        arrow: true,
+      },
+    },
   },
 });
 

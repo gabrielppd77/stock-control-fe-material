@@ -8,10 +8,12 @@ import TextFieldControl from "@components/TextFieldControl";
 import AutoCompleteSupplier from "@components/AutoCompleteSupplier";
 import AutoCompleteCategory from "@components/AutoCompleteCategory";
 import AutoCompleteGroup from "@components/AutoCompleteGroup";
-import SelectFieldStatus from "@components/SelectFieldStatus";
+import SelectFieldControl from "@components/SelectFieldControl";
 
 import { useProductUpdate } from "@libs/api/queries/product/useProduct";
 import { schema, useDialogUpdate } from "./form";
+
+import { ProductStatusEnumArray } from "@libs/api/enums/ProductStatusEnum";
 
 export default function FormUpdate() {
   const { mutateAsyncUpdate, isLoadingUpdate } = useProductUpdate();
@@ -44,7 +46,11 @@ export default function FormUpdate() {
           <AutoCompleteGroup name="groupId" />
           <TextFieldControl label="Número do Cliente" name="nrClient" />
           <TextFieldControl label="Observação" name="observation" />
-          <SelectFieldStatus name="status" />
+          <SelectFieldControl
+            label="Status"
+            name="status"
+            options={ProductStatusEnumArray}
+          />
         </Stack>
       </FormProvider>
     </ActionDialog>
