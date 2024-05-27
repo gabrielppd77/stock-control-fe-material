@@ -60,18 +60,17 @@ export default function Product() {
                 },
               }),
               customBodyRender: (value: ProductStatusEnum) => (
-                <Tooltip title={ProductStatusEnumLabel[value]}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: ProductStatusEnumColor[value],
-                    }}
-                  >
-                    <Circle />
-                  </Box>
-                </Tooltip>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: ProductStatusEnumColor[value],
+                  }}
+                >
+                  <Tooltip title={ProductStatusEnumLabel[value]}>
+                    <Circle fontSize="small" />
+                  </Tooltip>
+                </Box>
               ),
             },
           },

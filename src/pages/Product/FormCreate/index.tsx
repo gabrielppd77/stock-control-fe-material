@@ -43,10 +43,10 @@ export default function FormCreate() {
     >
       <FormProvider {...form}>
         <Stack gap={1}>
-          <TextFieldControl label="Nome" name="name" />
-          <AutoCompleteSupplier name="supplierId" />
-          <AutoCompleteCategory name="categoryId" />
-          <AutoCompleteGroup name="groupId" />
+          <TextFieldControl required label="Nome" name="name" />
+          <AutoCompleteSupplier required name="supplierId" />
+          <AutoCompleteCategory required name="categoryId" />
+          <AutoCompleteGroup required name="groupId" />
           <TextFieldControl label="Número do Cliente" name="nrClient" />
           <TextFieldControl label="Observação" name="observation" />
         </Stack>

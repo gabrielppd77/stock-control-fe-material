@@ -4,9 +4,13 @@ import AutoCompleteControl from "@components/AutoCompleteControl";
 
 interface AutoCompleteGroupProps {
   name: string;
+  required?: boolean;
 }
 
-export default function AutoCompleteGroup({ name }: AutoCompleteGroupProps) {
+export default function AutoCompleteGroup({
+  name,
+  required,
+}: AutoCompleteGroupProps) {
   const { data, isLoading: _isLoading, isFetching } = useGroupQuery();
   const isLoading = _isLoading || isFetching;
 
@@ -15,9 +19,10 @@ export default function AutoCompleteGroup({ name }: AutoCompleteGroupProps) {
       idField="id"
       options={data || []}
       isLoading={isLoading}
-      label="Categoria"
+      label="Grupo"
       name={name}
       renderOptions={(d) => d.code + " - " + d.name}
+      required={required}
     />
   );
 }

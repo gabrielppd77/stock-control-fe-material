@@ -33,8 +33,8 @@ export default function FormUpdate() {
     >
       <FormProvider {...form}>
         <Stack gap={1}>
-          <TextFieldControl label="Código" name="code" type="number" />
-          <TextFieldControl label="Nome" name="name" />
+          <TextFieldControl required label="Código" name="code" type="number" />
+          <TextFieldControl required label="Nome" name="name" />
         </Stack>
       </FormProvider>
     </ActionDialog>

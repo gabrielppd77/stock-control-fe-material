@@ -9,6 +9,7 @@ interface AutoCompleteControlProps<TData> {
   renderOptions: (d: TData) => string;
   isLoading: boolean;
   idField: keyof TData extends string ? keyof TData : never;
+  required?: boolean;
 }
 
 export default function AutoCompleteControl<TData>({
@@ -18,6 +19,7 @@ export default function AutoCompleteControl<TData>({
   renderOptions,
   isLoading,
   idField,
+  required,
 }: AutoCompleteControlProps<TData>) {
   return (
     <Controller
@@ -36,6 +38,7 @@ export default function AutoCompleteControl<TData>({
               helperText={error ? error.message : null}
               error={!!error}
               label={label}
+              required={required}
               InputProps={{
                 ...params.InputProps,
                 endAdornment: (

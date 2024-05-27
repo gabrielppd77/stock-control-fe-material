@@ -4,10 +4,12 @@ import AutoCompleteControl from "@components/AutoCompleteControl";
 
 interface AutoCompleteSupplierProps {
   name: string;
+  required?: boolean;
 }
 
 export default function AutoCompleteSupplier({
   name,
+  required,
 }: AutoCompleteSupplierProps) {
   const { data, isLoading: _isLoading, isFetching } = useSupplierQuery();
   const isLoading = _isLoading || isFetching;
@@ -20,6 +22,7 @@ export default function AutoCompleteSupplier({
       label="Fornecedor"
       name={name}
       renderOptions={(d) => d.code + " - " + d.name}
+      required={required}
     />
   );
 }

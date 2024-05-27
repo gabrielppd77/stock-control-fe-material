@@ -30,7 +30,7 @@ export default function FormCreate() {
       })}
     >
       <FormProvider {...form}>
-        <TextFieldControl label="Nome" name="name" />
+        <TextFieldControl required label="Nome" name="name" />
       </FormProvider>
     </ActionDialog>
   );
