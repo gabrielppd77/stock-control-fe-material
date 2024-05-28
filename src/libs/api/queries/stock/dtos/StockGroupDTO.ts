@@ -2,6 +2,7 @@ import { ProductDTO } from "../../product/dtos/ProductDTO";
 
 export interface StockGroupDTO {
   id: string;
+  supplierId: string;
   code: number;
   name: string;
   avaiableCount: number;

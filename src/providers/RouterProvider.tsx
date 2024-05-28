@@ -7,9 +7,7 @@ import MainLayout from "../layout/MainLayout";
 
 import Home from "../pages/Home";
 import Supplier from "../pages/Supplier";
-import Category from "@pages/Category";
 import Product from "@pages/Product";
-import Group from "@pages/Group";
 import Stock from "@pages/Stock";
 
 const routes = createBrowserRouter([
@@ -24,14 +22,6 @@ const routes = createBrowserRouter([
       {
         path: "/supplier",
         element: <Supplier />,
-      },
-      {
-        path: "/category",
-        element: <Category />,
-      },
-      {
-        path: "/group",
-        element: <Group />,
       },
       {
         path: "/product",

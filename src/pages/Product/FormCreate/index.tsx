@@ -5,9 +5,6 @@ import { Stack } from "@mui/material";
 
 import ActionDialog from "@components/ActionDialog";
 import TextFieldControl from "@components/TextFieldControl";
-import AutoCompleteSupplier from "@components/AutoCompleteSupplier";
-import AutoCompleteCategory from "@components/AutoCompleteCategory";
-import AutoCompleteGroup from "@components/AutoCompleteGroup";
 
 import { useProductCreate } from "@libs/api/queries/product/useProduct";
 import { schema, useDialogCreate } from "./form";
@@ -44,9 +41,6 @@ export default function FormCreate() {
       <FormProvider {...form}>
         <Stack gap={1}>
           <TextFieldControl required label="Nome" name="name" />
-          <AutoCompleteSupplier required name="supplierId" />
-          <AutoCompleteCategory required name="categoryId" />
-          <AutoCompleteGroup required name="groupId" />
           <TextFieldControl label="Número do Cliente" name="nrClient" />
           <TextFieldControl label="Observação" name="observation" />
         </Stack>

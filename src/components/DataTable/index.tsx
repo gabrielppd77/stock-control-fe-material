@@ -67,7 +67,7 @@ export default function DataTable({
             },
           },
           expandableRows: expandable ? true : undefined,
-          expandableRowsOnClick: expandable ? true : undefined,
+          expandableRowsOnClick: false,
           renderExpandableRow: expandable
             ? (_, { dataIndex }) => (
                 <TableCell padding={"none"} colSpan={12}>

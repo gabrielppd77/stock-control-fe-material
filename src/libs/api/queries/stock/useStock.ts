@@ -4,11 +4,11 @@ import { getGroups } from "./requests/getGroups";
 
 import { extractError } from "@libs/alert";
 
-const query = ["stock-getGroups"];
+export const queryStockGetGroups = ["stock-getGroups"];
 
 export function useStockGroups() {
   const { data, isLoading, isFetching, error } = useQuery({
-    queryKey: [...query],
+    queryKey: [...queryStockGetGroups],
     queryFn: () => getGroups(),
   });
 
