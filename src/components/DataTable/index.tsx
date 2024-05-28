@@ -1,14 +1,26 @@
-import { Box, CircularProgress, LinearProgress } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  LinearProgress,
+  Paper,
+  TableCell,
+} from "@mui/material";
 
 import MUIDataTable, { MUIDataTableColumnDef } from "mui-datatables";
+
+interface DataTableExpandableProps {
+  renderExpandableRow: (dataIndex: number) => React.ReactNode;
+}
 
 export type DataTableColumn = MUIDataTableColumnDef;
 
 interface DataTableProps {
   data: Array<object | number[] | string[]>;
   columns: DataTableColumn[];
-  isLoading: boolean;
-  isFetching: boolean;
+  isLoading?: boolean;
+  isFetching?: boolean;
+  pagination?: boolean;
+  expandable?: DataTableExpandableProps;
 }
 
 export default function DataTable({
@@ -16,15 +28,19 @@ export default function DataTable({
   columns,
   isLoading,
   isFetching,
+  pagination,
+  expandable,
 }: DataTableProps) {
   return (
-    <Box>
+    <Paper>
       <Box sx={{ height: 4 }}>{isFetching && <LinearProgress />}</Box>
       <MUIDataTable
         title=""
         data={data}
         columns={columns}
         options={{
+          elevation: 0,
+          pagination,
           download: false,
           print: false,
           filter: false,
@@ -50,8 +66,17 @@ export default function DataTable({
               displayRows: "de",
             },
           },
+          expandableRows: expandable ? true : undefined,
+          expandableRowsOnClick: expandable ? true : undefined,
+          renderExpandableRow: expandable
+            ? (_, { dataIndex }) => (
+                <TableCell padding={"none"} colSpan={12}>
+                  {expandable.renderExpandableRow(dataIndex)}
+                </TableCell>
+              )
+            : undefined,
         }}
       />
-    </Box>
+    </Paper>
   );
 }

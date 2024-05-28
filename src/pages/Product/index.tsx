@@ -92,7 +92,7 @@ export default function Product() {
                       openUpdate(dt);
                     }}
                   >
-                    <Edit />
+                    <Edit fontSize="small" />
                   </IconButton>
 
                   <IconButton
@@ -100,7 +100,7 @@ export default function Product() {
                       confirmDelete(async () => await mutateAsyncDelete(value))
                     }
                   >
-                    <Delete />
+                    <Delete fontSize="small" />
                   </IconButton>
                 </Stack>
               ),

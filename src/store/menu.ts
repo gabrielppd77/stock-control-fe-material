@@ -22,8 +22,13 @@ const menu: MenuProps[] = [
   },
   {
     title: "Produtos",
-    icon: "inventory",
+    icon: "shopping_cart",
     link: "/product",
+  },
+  {
+    title: "Estoque",
+    icon: "inventory",
+    link: "/stock",
   },
 ];
 

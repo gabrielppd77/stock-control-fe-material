@@ -64,7 +64,7 @@ export default function Supplier() {
                         openUpdate(dt);
                       }}
                     >
-                      <Edit />
+                      <Edit fontSize="small" />
                     </IconButton>
 
                     <IconButton
@@ -74,7 +74,7 @@ export default function Supplier() {
                         )
                       }
                     >
-                      <Delete />
+                      <Delete fontSize="small" />
                     </IconButton>
                   </Stack>
                 );

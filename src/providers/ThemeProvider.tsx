@@ -40,6 +40,13 @@ const theme = createTheme({
         arrow: true,
       },
     },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          padding: 8,
+        },
+      },
+    },
   },
 });
 

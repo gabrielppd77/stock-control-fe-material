@@ -10,6 +10,7 @@ import Supplier from "../pages/Supplier";
 import Category from "@pages/Category";
 import Product from "@pages/Product";
 import Group from "@pages/Group";
+import Stock from "@pages/Stock";
 
 const routes = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const routes = createBrowserRouter([
       {
         path: "/product",
         element: <Product />,
+      },
+      {
+        path: "/stock",
+        element: <Stock />,
       },
     ],
   },
