@@ -1,25 +1,21 @@
 import { useSupplierQuery } from "@libs/api/queries/supplier/useSupplier";
 
-import AutoComplete from "@components/AutoComplete";
+import AutoCompleteControl from "@components/AutoCompleteControl";
 
-interface AutoCompleteSupplierProps {
-  name?: string;
+interface AutoCompleteSupplierControlProps {
+  name: string;
   required?: boolean;
-  value: string;
-  onChange: (d: string) => void;
 }
 
-export default function AutoCompleteSupplier({
+export default function AutoCompleteSupplierControl({
   name,
   required,
-  value,
-  onChange,
-}: AutoCompleteSupplierProps) {
+}: AutoCompleteSupplierControlProps) {
   const { data, isLoading: _isLoading, isFetching } = useSupplierQuery();
   const isLoading = _isLoading || isFetching;
 
   return (
-    <AutoComplete
+    <AutoCompleteControl
       idField="id"
       options={data || []}
       isLoading={isLoading}
@@ -27,8 +23,6 @@ export default function AutoCompleteSupplier({
       name={name}
       renderOptions={(d) => d.code + " - " + d.name}
       required={required}
-      value={value}
-      onChange={onChange}
     />
   );
 }

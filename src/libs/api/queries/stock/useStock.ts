@@ -6,10 +6,10 @@ import { extractError } from "@libs/alert";
 
 export const queryStockGetGroups = ["stock-getGroups"];
 
-export function useStockGroups() {
+export function useStockGroups(supplierId: string) {
   const { data, isLoading, isFetching, error } = useQuery({
-    queryKey: [...queryStockGetGroups],
-    queryFn: () => getGroups(),
+    queryKey: [...queryStockGetGroups, supplierId],
+    queryFn: () => getGroups({ supplierId }),
   });
 
   if (error) extractError(error);

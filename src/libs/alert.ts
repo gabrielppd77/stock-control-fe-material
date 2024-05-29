@@ -15,8 +15,7 @@ export function extractError(err: unknown) {
 
   if (err instanceof AxiosError) {
     const data: ResponseData | undefined = err?.response?.data;
-    console.log({ err });
-    if (data) {
+    if (data && data.detail) {
       title = data.status + " " + (data.title || title);
       text =
         typeof data.detail === "string" ? data.detail : data.detail.join(",");

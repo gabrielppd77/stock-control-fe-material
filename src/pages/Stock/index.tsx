@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Button, IconButton, Stack } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 
@@ -16,9 +18,11 @@ import FormUpdate from "@pages/Group/FormUpdate";
 
 import { useGroupDelete } from "@libs/api/queries/group/useGroup";
 import { confirmDelete } from "@libs/alert";
+import AutoCompleteSupplier from "@components/AutoCompleteSupplier";
 
 export default function Stock() {
-  const { data: _data, isLoading, isFetching } = useStockGroups();
+  const [supplierId, setSupplierId] = React.useState("");
+  const { data: _data, isLoading, isFetching } = useStockGroups(supplierId);
   const data = _data || [];
 
   const { mutateAsyncDelete, isLoadingDelete } = useGroupDelete();
@@ -29,6 +33,7 @@ export default function Stock() {
   return (
     <Stack gap={1} p={2}>
       <PageHeader title="Estoque" />
+      <AutoCompleteSupplier value={supplierId} onChange={setSupplierId} />
       <DataTable
         columns={[
           {

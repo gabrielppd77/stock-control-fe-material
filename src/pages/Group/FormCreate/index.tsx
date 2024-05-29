@@ -6,6 +6,8 @@ import ActionDialog from "@components/ActionDialog";
 
 import { useGroupCreate } from "@libs/api/queries/group/useGroup";
 import { schema, useDialogCreate } from "./form";
+import AutoCompleteSupplierControl from "@components/AutoCompleteSupplierControl";
+import { Stack } from "@mui/material";
 
 export default function FormCreate() {
   const { mutateAsyncCreate, isLoadingCreate } = useGroupCreate();
@@ -14,7 +16,7 @@ export default function FormCreate() {
 
   const form = useForm({
     resolver: zodResolver(schema),
-    defaultValues: { name: "" },
+    defaultValues: { name: "", supplierId: "" },
   });
 
   return (
@@ -30,7 +32,10 @@ export default function FormCreate() {
       })}
     >
       <FormProvider {...form}>
-        <TextFieldControl required label="Nome" name="name" />
+        <Stack gap={1}>
+          <TextFieldControl required label="Nome" name="name" />
+          <AutoCompleteSupplierControl required name="supplierId" />
+        </Stack>
       </FormProvider>
     </ActionDialog>
   );
