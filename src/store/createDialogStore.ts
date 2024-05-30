@@ -2,17 +2,17 @@ import { create } from "zustand";
 
 interface DialogStoreProps<TData> {
   isOpen: boolean;
-  data?: TData;
-  open: (data?: TData) => void;
+  data: TData;
+  open: (data: TData) => void;
   close: () => void;
 }
 
-const createDialogStore = <TData>() =>
+const createDialogStore = <TData>(dataInitial: TData) =>
   create<DialogStoreProps<TData>>((set) => ({
     isOpen: false,
-    data: undefined,
+    data: dataInitial,
     open: (data) => set(() => ({ isOpen: true, data })),
-    close: () => set(() => ({ isOpen: false, data: undefined })),
+    close: () => set(() => ({ isOpen: false, data: dataInitial })),
   }));
 
 export default createDialogStore;

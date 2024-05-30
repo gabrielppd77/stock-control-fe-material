@@ -7,7 +7,6 @@ import MainLayout from "../layout/MainLayout";
 
 import Home from "../pages/Home";
 import Supplier from "../pages/Supplier";
-import Product from "@pages/Product";
 import Stock from "@pages/Stock";
 
 const routes = createBrowserRouter([
@@ -22,10 +21,6 @@ const routes = createBrowserRouter([
       {
         path: "/supplier",
         element: <Supplier />,
-      },
-      {
-        path: "/product",
-        element: <Product />,
       },
       {
         path: "/stock",

@@ -34,6 +34,11 @@ export default function AutoComplete<TData>({
       getOptionLabel={renderOptions}
       options={options}
       loading={isLoading}
+      openText="Abrir"
+      clearText="Limpar"
+      closeText="Fechar"
+      loadingText="Carregando..."
+      noOptionsText="Sem opções"
       renderInput={(params) => (
         <TextField
           {...params}

@@ -9,4 +9,8 @@ export const schema = z.object({
 
 type FormType = z.infer<typeof schema>;
 
-export const useDialogUpdate = createDialogStore<FormType>();
+export const useDialogUpdate = createDialogStore<FormType>({
+  id: "",
+  code: 0,
+  name: "",
+});

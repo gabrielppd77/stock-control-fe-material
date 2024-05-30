@@ -5,20 +5,18 @@ import { Delete, Edit } from "@mui/icons-material";
 
 import PageHeader from "@components/PageHeader";
 import DataTable from "@components/DataTable";
+import AutoCompleteSupplier from "@components/AutoCompleteSupplier";
 
-import { useStockGroups } from "@libs/api/queries/stock/useStock";
-
+import FormCreate from "./Group/FormCreate";
+import FormUpdate from "./Group/FormUpdate";
 import TableProducts from "./TableProducts";
 
-import { useDialogCreate } from "@pages/Group/FormCreate/form";
-import { useDialogUpdate } from "@pages/Group/FormUpdate/form";
-
-import FormCreate from "@pages/Group/FormCreate";
-import FormUpdate from "@pages/Group/FormUpdate";
-
+import { useStockGroups } from "@libs/api/queries/stock/useStock";
 import { useGroupDelete } from "@libs/api/queries/group/useGroup";
+import { useDialogCreate } from "./Group/FormCreate/form";
+import { useDialogUpdate } from "./Group/FormUpdate/form";
+
 import { confirmDelete } from "@libs/alert";
-import AutoCompleteSupplier from "@components/AutoCompleteSupplier";
 
 export default function Stock() {
   const [supplierId, setSupplierId] = React.useState("");
@@ -32,7 +30,14 @@ export default function Stock() {
 
   return (
     <Stack gap={1} p={2}>
-      <PageHeader title="Estoque" />
+      <PageHeader
+        title="Estoque"
+        renderRight={
+          <Button onClick={() => openCreate(supplierId)}>
+            Adicionar Grupo
+          </Button>
+        }
+      />
       <AutoCompleteSupplier value={supplierId} onChange={setSupplierId} />
       <DataTable
         columns={[
@@ -103,7 +108,9 @@ export default function Stock() {
                     <IconButton
                       onClick={() => {
                         const dt = data?.find((d) => d.id === value);
-                        openUpdate(dt);
+                        if (dt) {
+                          openUpdate(dt);
+                        }
                       }}
                     >
                       <Edit fontSize="small" />
@@ -129,13 +136,14 @@ export default function Stock() {
         isFetching={isFetching || isLoadingDelete}
         expandable={{
           renderExpandableRow: (dataIndex) => (
-            <TableProducts data={data[dataIndex].products} />
+            <TableProducts
+              grupoId={data[dataIndex].id}
+              data={data[dataIndex].products}
+            />
           ),
         }}
         pagination={false}
       />
-      <Button onClick={() => openCreate()}>Adicionar Grupo</Button>
-
       {isOpenCreate && <FormCreate />}
       {isOpenUpdate && <FormUpdate />}
     </Stack>

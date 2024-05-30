@@ -26,7 +26,9 @@ export default function Supplier() {
     <Stack gap={1} p={2}>
       <PageHeader
         title="Fornecedores"
-        renderRight={<Button onClick={() => openCreate()}>Adicionar</Button>}
+        renderRight={
+          <Button onClick={() => openCreate(null)}>Adicionar</Button>
+        }
       />
       <DataTable
         columns={[
@@ -61,7 +63,9 @@ export default function Supplier() {
                     <IconButton
                       onClick={() => {
                         const dt = data?.find((d) => d.id === value);
-                        openUpdate(dt);
+                        if (dt) {
+                          openUpdate(dt);
+                        }
                       }}
                     >
                       <Edit fontSize="small" />
@@ -85,6 +89,7 @@ export default function Supplier() {
         data={data || []}
         isLoading={isLoading}
         isFetching={isFetching || isLoadingDelete}
+        pagination={false}
       />
 
       {isOpenCreate && <FormCreate />}

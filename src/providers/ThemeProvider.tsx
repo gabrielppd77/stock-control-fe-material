@@ -18,6 +18,11 @@ const theme = createTheme({
         style: { textTransform: "none" },
       },
     },
+    MuiFab: {
+      defaultProps: {
+        style: { textTransform: "none" },
+      },
+    },
     MuiIcon: {
       defaultProps: {
         fontSize: "small",

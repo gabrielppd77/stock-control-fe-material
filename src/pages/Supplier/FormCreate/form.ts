@@ -5,6 +5,4 @@ export const schema = z.object({
   name: z.string().min(1, { message: "Informe o Nome" }),
 });
 
-type FormType = z.infer<typeof schema>;
-
-export const useDialogCreate = createDialogStore<FormType>();
+export const useDialogCreate = createDialogStore<null>(null);

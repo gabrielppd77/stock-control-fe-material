@@ -12,12 +12,14 @@ import { Stack } from "@mui/material";
 export default function FormCreate() {
   const { mutateAsyncCreate, isLoadingCreate } = useGroupCreate();
 
-  const { isOpen, close } = useDialogCreate();
+  const { isOpen, close, data: supplierId } = useDialogCreate();
 
   const form = useForm({
     resolver: zodResolver(schema),
-    defaultValues: { name: "", supplierId: "" },
+    defaultValues: { name: "", supplierId },
   });
+
+  const haveSupplier = supplierId ? true : false;
 
   return (
     <ActionDialog
@@ -33,8 +35,12 @@ export default function FormCreate() {
     >
       <FormProvider {...form}>
         <Stack gap={1}>
+          {haveSupplier ? (
+            <></>
+          ) : (
+            <AutoCompleteSupplierControl required name="supplierId" />
+          )}
           <TextFieldControl required label="Nome" name="name" />
-          <AutoCompleteSupplierControl required name="supplierId" />
         </Stack>
       </FormProvider>
     </ActionDialog>

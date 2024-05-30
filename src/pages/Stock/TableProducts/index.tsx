@@ -1,38 +1,41 @@
 import { Box, Button, IconButton, Stack, Tooltip } from "@mui/material";
 import { Circle, Delete, Edit } from "@mui/icons-material";
 
-import PageHeader from "@components/PageHeader";
 import DataTable from "@components/DataTable";
-
-import {
-  useProductDelete,
-  useProductQuery,
-} from "@libs/api/queries/product/useProduct";
-import { confirmDelete } from "@libs/alert";
-
-import FormCreate from "./FormCreate";
-import FormUpdate from "./FormUpdate";
-import { useDialogCreate } from "./FormCreate/form";
-import { useDialogUpdate } from "./FormUpdate/form";
 import {
   ProductStatusEnum,
   ProductStatusEnumColor,
   ProductStatusEnumLabel,
 } from "@libs/api/enums/ProductStatusEnum";
 
-export default function Product() {
-  const { data, isLoading, isFetching } = useProductQuery();
+import FormCreate from "./Product/FormCreate";
+import FormUpdate from "./Product/FormUpdate";
+
+import { ProductDTO } from "@libs/api/queries/product/dtos/ProductDTO";
+
+import { useDialogCreate } from "./Product/FormCreate/form";
+import { useDialogUpdate } from "./Product/FormUpdate/form";
+
+import { useProductDelete } from "@libs/api/queries/product/useProduct";
+
+import { confirmDelete } from "@libs/alert";
+
+interface TableProductsProps {
+  grupoId: string;
+  data: ProductDTO[];
+}
+
+export default function TableProducts({ grupoId, data }: TableProductsProps) {
   const { mutateAsyncDelete, isLoadingDelete } = useProductDelete();
 
   const { open: openCreate, isOpen: isOpenCreate } = useDialogCreate();
   const { open: openUpdate, isOpen: isOpenUpdate } = useDialogUpdate();
 
   return (
-    <Stack gap={1} p={2}>
-      <PageHeader
-        title="Produtos"
-        renderRight={<Button onClick={() => openCreate()}>Adicionar</Button>}
-      />
+    <Stack gap={1}>
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Button onClick={() => openCreate(grupoId)}>Adicionar Produto</Button>
+      </Box>
       <DataTable
         columns={[
           {
@@ -89,7 +92,9 @@ export default function Product() {
                   <IconButton
                     onClick={() => {
                       const dt = data?.find((d) => d.id === value);
-                      openUpdate(dt);
+                      if (dt) {
+                        openUpdate(dt);
+                      }
                     }}
                   >
                     <Edit fontSize="small" />
@@ -107,11 +112,10 @@ export default function Product() {
             },
           },
         ]}
-        data={data || []}
-        isLoading={isLoading}
-        isFetching={isFetching || isLoadingDelete}
+        pagination={false}
+        data={data}
+        isFetching={isLoadingDelete}
       />
-
       {isOpenCreate && <FormCreate />}
       {isOpenUpdate && <FormUpdate />}
     </Stack>

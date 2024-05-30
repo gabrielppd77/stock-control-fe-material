@@ -1,25 +1,12 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { getAll } from "./requests/getAll";
 import { create } from "./requests/create";
 import { update } from "./requests/update";
 import { remove } from "./requests/remove";
 
 import { extractError } from "@libs/alert";
 import { notifyCreate, notifyUpdate, notifyRemove } from "@libs/notification";
-
-const query = ["product"];
-
-export function useProductQuery() {
-  const { data, isLoading, isFetching, error } = useQuery({
-    queryKey: [...query],
-    queryFn: () => getAll(),
-  });
-
-  if (error) extractError(error);
-
-  return { data, isLoading, isFetching };
-}
+import { queryStockGetGroups } from "../stock/useStock";
 
 export function useProductCreate() {
   const queryClient = useQueryClient();
@@ -30,7 +17,7 @@ export function useProductCreate() {
       onSuccess: () => {
         notifyCreate();
         queryClient.invalidateQueries({
-          queryKey: query,
+          queryKey: queryStockGetGroups,
         });
       },
       onError: extractError,
@@ -51,7 +38,7 @@ export function useProductUpdate() {
       onSuccess: () => {
         notifyUpdate();
         queryClient.invalidateQueries({
-          queryKey: query,
+          queryKey: queryStockGetGroups,
         });
       },
       onError: extractError,
@@ -72,7 +59,7 @@ export function useProductDelete() {
       onSuccess: () => {
         notifyRemove();
         queryClient.invalidateQueries({
-          queryKey: query,
+          queryKey: queryStockGetGroups,
         });
       },
       onError: extractError,

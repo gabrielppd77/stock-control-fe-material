@@ -6,6 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import ActionDialog from "@components/ActionDialog";
 import TextFieldControl from "@components/TextFieldControl";
 import SelectFieldControl from "@components/SelectFieldControl";
+import AutoCompleteGroupControl from "@components/AutoCompleteGroupControl";
 
 import { useProductUpdate } from "@libs/api/queries/product/useProduct";
 import { schema, useDialogUpdate } from "./form";
@@ -36,6 +37,7 @@ export default function FormUpdate() {
     >
       <FormProvider {...form}>
         <Stack gap={1}>
+          <AutoCompleteGroupControl required name="groupId" />
           <TextFieldControl required label="Código" name="code" type="number" />
           <TextFieldControl required label="Nome" name="name" />
           <TextFieldControl label="Número do Cliente" name="nrClient" />

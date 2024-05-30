@@ -6,6 +6,4 @@ export const schema = z.object({
   supplierId: z.string().min(1, { message: "Informe o Fornecedor" }),
 });
 
-type FormType = z.infer<typeof schema>;
-
-export const useDialogCreate = createDialogStore<FormType>();
+export const useDialogCreate = createDialogStore<string>("");
