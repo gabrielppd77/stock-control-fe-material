@@ -11,21 +11,20 @@ import {
 import FormCreate from "./Product/FormCreate";
 import FormUpdate from "./Product/FormUpdate";
 
-import { ProductDTO } from "@libs/api/queries/product/dtos/ProductDTO";
-
 import { useDialogCreate } from "./Product/FormCreate/form";
 import { useDialogUpdate } from "./Product/FormUpdate/form";
 
 import { useProductDelete } from "@libs/api/queries/product/useProduct";
 
 import { confirmDelete } from "@libs/alert";
+import { useStockGroupsProducts } from "@libs/api/queries/stock/useStock";
 
 interface TableProductsProps {
   grupoId: string;
-  data: ProductDTO[];
 }
 
-export default function TableProducts({ grupoId, data }: TableProductsProps) {
+export default function TableProducts({ grupoId }: TableProductsProps) {
+  const { data, isLoading, isFetching } = useStockGroupsProducts(grupoId);
   const { mutateAsyncDelete, isLoadingDelete } = useProductDelete();
 
   const { open: openCreate, isOpen: isOpenCreate } = useDialogCreate();
@@ -52,6 +51,14 @@ export default function TableProducts({ grupoId, data }: TableProductsProps) {
           {
             name: "name",
             label: "Nome",
+          },
+          {
+            name: "nrClient",
+            label: "Cliente",
+          },
+          {
+            name: "observation",
+            label: "Observação",
           },
           {
             name: "status",
@@ -113,8 +120,9 @@ export default function TableProducts({ grupoId, data }: TableProductsProps) {
           },
         ]}
         pagination={false}
-        data={data}
-        isFetching={isLoadingDelete}
+        data={data || []}
+        isLoading={isLoading}
+        isFetching={isFetching || isLoadingDelete}
       />
       {isOpenCreate && <FormCreate />}
       {isOpenUpdate && <FormUpdate />}

@@ -17,6 +17,7 @@ import {
 import { LoadingButton } from "@mui/lab";
 
 import { Close } from "@mui/icons-material";
+import useKeyPress from "@hooks/useKeyPress";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -46,6 +47,8 @@ export default function ActionDialog({
   onSubmit,
   isLoading,
 }: ActionDialogProps) {
+  useKeyPress("Enter", () => onSubmit());
+
   const fullScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("sm")
   );

@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   Box,
   CircularProgress,
@@ -31,6 +33,8 @@ export default function DataTable({
   pagination,
   expandable,
 }: DataTableProps) {
+  const [rowsExpanded, setRowsExpanded] = React.useState<number[]>([]);
+
   return (
     <Paper>
       <Box sx={{ height: 4 }}>{isFetching && <LinearProgress />}</Box>
@@ -68,9 +72,17 @@ export default function DataTable({
           },
           expandableRows: expandable ? true : undefined,
           expandableRowsOnClick: false,
+          expandableRowsHeader: false,
+          rowsExpanded,
+          onRowExpansionChange: (currentRowsExpanded) => {
+            const { dataIndex } = currentRowsExpanded[0];
+            setRowsExpanded((prev) =>
+              prev.some((d) => d === dataIndex) ? [] : [dataIndex]
+            );
+          },
           renderExpandableRow: expandable
-            ? (_, { dataIndex }) => (
-                <TableCell padding={"none"} colSpan={12}>
+            ? (rowData, { dataIndex }) => (
+                <TableCell padding={"none"} colSpan={rowData.length + 1}>
                   {expandable.renderExpandableRow(dataIndex)}
                 </TableCell>
               )

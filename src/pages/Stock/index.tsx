@@ -11,7 +11,7 @@ import FormCreate from "./Group/FormCreate";
 import FormUpdate from "./Group/FormUpdate";
 import TableProducts from "./TableProducts";
 
-import { useStockGroups } from "@libs/api/queries/stock/useStock";
+import { useStockGroupsGroups } from "@libs/api/queries/stock/useStock";
 import { useGroupDelete } from "@libs/api/queries/group/useGroup";
 import { useDialogCreate } from "./Group/FormCreate/form";
 import { useDialogUpdate } from "./Group/FormUpdate/form";
@@ -20,7 +20,11 @@ import { confirmDelete } from "@libs/alert";
 
 export default function Stock() {
   const [supplierId, setSupplierId] = React.useState("");
-  const { data: _data, isLoading, isFetching } = useStockGroups(supplierId);
+  const {
+    data: _data,
+    isLoading,
+    isFetching,
+  } = useStockGroupsGroups(supplierId);
   const data = _data || [];
 
   const { mutateAsyncDelete, isLoadingDelete } = useGroupDelete();
@@ -136,10 +140,7 @@ export default function Stock() {
         isFetching={isFetching || isLoadingDelete}
         expandable={{
           renderExpandableRow: (dataIndex) => (
-            <TableProducts
-              grupoId={data[dataIndex].id}
-              data={data[dataIndex].products}
-            />
+            <TableProducts grupoId={data[dataIndex].id} />
           ),
         }}
         pagination={false}

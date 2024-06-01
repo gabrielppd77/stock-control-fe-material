@@ -6,7 +6,7 @@ import { remove } from "./requests/remove";
 
 import { extractError } from "@libs/alert";
 import { notifyCreate, notifyUpdate, notifyRemove } from "@libs/notification";
-import { queryStockGetGroups } from "../stock/useStock";
+import { queryStockGetGroups, queryStockGetProducts } from "../stock/useStock";
 
 export function useProductCreate() {
   const queryClient = useQueryClient();
@@ -18,6 +18,9 @@ export function useProductCreate() {
         notifyCreate();
         queryClient.invalidateQueries({
           queryKey: queryStockGetGroups,
+        });
+        queryClient.invalidateQueries({
+          queryKey: queryStockGetProducts,
         });
       },
       onError: extractError,
@@ -40,6 +43,9 @@ export function useProductUpdate() {
         queryClient.invalidateQueries({
           queryKey: queryStockGetGroups,
         });
+        queryClient.invalidateQueries({
+          queryKey: queryStockGetProducts,
+        });
       },
       onError: extractError,
     });
@@ -60,6 +66,9 @@ export function useProductDelete() {
         notifyRemove();
         queryClient.invalidateQueries({
           queryKey: queryStockGetGroups,
+        });
+        queryClient.invalidateQueries({
+          queryKey: queryStockGetProducts,
         });
       },
       onError: extractError,

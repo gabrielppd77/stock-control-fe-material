@@ -1,5 +1,3 @@
-import { ProductDTO } from "../../product/dtos/ProductDTO";
-
 export interface StockGroupDTO {
   id: string;
   supplierId: string;
@@ -8,5 +6,4 @@ export interface StockGroupDTO {
   avaiableCount: number;
   preparingCount: number;
   soldCount: number;
-  products: ProductDTO[];
 }
