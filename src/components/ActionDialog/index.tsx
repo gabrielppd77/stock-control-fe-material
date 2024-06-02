@@ -12,6 +12,7 @@ import {
   DialogActions,
   IconButton,
   Theme,
+  Tooltip,
   useMediaQuery,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
@@ -64,17 +65,19 @@ export default function ActionDialog({
       maxWidth={maxWidth}
     >
       <DialogTitle>{title}</DialogTitle>
-      <IconButton
-        aria-label="close"
-        onClick={() => onClose()}
-        sx={{
-          position: "absolute",
-          right: 12,
-          top: 12,
-        }}
-      >
-        <Close />
-      </IconButton>
+      <Tooltip title="Fechar">
+        <IconButton
+          aria-label="close"
+          onClick={() => onClose()}
+          sx={{
+            position: "absolute",
+            right: 12,
+            top: 12,
+          }}
+        >
+          <Close />
+        </IconButton>
+      </Tooltip>
       <DialogContent dividers>{children}</DialogContent>
       <DialogActions>
         <Button fullWidth variant="outlined" onClick={() => onClose()}>

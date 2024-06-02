@@ -82,7 +82,13 @@ export default function DataTable({
           },
           renderExpandableRow: expandable
             ? (rowData, { dataIndex }) => (
-                <TableCell padding={"none"} colSpan={rowData.length + 1}>
+                <TableCell
+                  padding={"none"}
+                  colSpan={rowData.length + 1}
+                  sx={{
+                    backgroundColor: "action.selected",
+                  }}
+                >
                   {expandable.renderExpandableRow(dataIndex)}
                 </TableCell>
               )

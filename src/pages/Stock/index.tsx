@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button, IconButton, Stack } from "@mui/material";
+import { Button, IconButton, Stack, TableCell, Tooltip } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 
 import PageHeader from "@components/PageHeader";
@@ -17,8 +17,40 @@ import { useDialogCreate } from "./Group/FormCreate/form";
 import { useDialogUpdate } from "./Group/FormUpdate/form";
 
 import { confirmDelete } from "@libs/alert";
+import { ProductStatusEnum } from "@libs/api/enums/ProductStatusEnum";
+
+interface CustomHeaderProps {
+  label: string;
+  value: ProductStatusEnum[];
+  onChange: (newValues: ProductStatusEnum[]) => void;
+  status: ProductStatusEnum;
+}
+
+function CustomHeader({ label, value, onChange, status }: CustomHeaderProps) {
+  return (
+    <TableCell>
+      <Button
+        color={value.includes(status) ? "success" : "inherit"}
+        onClick={() =>
+          onChange(
+            value.some((d) => d === status)
+              ? value.filter((d) => d !== status)
+              : [...value, status]
+          )
+        }
+      >
+        {label}
+      </Button>
+    </TableCell>
+  );
+}
 
 export default function Stock() {
+  const [statusFilter, setStatusFilter] = React.useState<ProductStatusEnum[]>([
+    ProductStatusEnum.Available,
+    ProductStatusEnum.Preparing,
+    ProductStatusEnum.Sold,
+  ]);
   const [supplierId, setSupplierId] = React.useState("");
   const {
     data: _data,
@@ -64,6 +96,15 @@ export default function Stock() {
             name: "avaiableCount",
             label: "Disponíveis",
             options: {
+              customHeadRender: ({ label, name }) => (
+                <CustomHeader
+                  key={"custom-header" + name}
+                  label={label || ""}
+                  value={statusFilter}
+                  onChange={setStatusFilter}
+                  status={ProductStatusEnum.Available}
+                />
+              ),
               sort: false,
               setCellProps: () => ({
                 sx: {
@@ -76,6 +117,15 @@ export default function Stock() {
             name: "preparingCount",
             label: "Preparando",
             options: {
+              customHeadRender: ({ label, name }) => (
+                <CustomHeader
+                  key={"custom-header" + name}
+                  label={label || ""}
+                  value={statusFilter}
+                  onChange={setStatusFilter}
+                  status={ProductStatusEnum.Preparing}
+                />
+              ),
               sort: false,
               setCellProps: () => ({
                 sx: {
@@ -88,6 +138,15 @@ export default function Stock() {
             name: "soldCount",
             label: "Vendidos",
             options: {
+              customHeadRender: ({ label, name }) => (
+                <CustomHeader
+                  key={"custom-header" + name}
+                  label={label || ""}
+                  value={statusFilter}
+                  onChange={setStatusFilter}
+                  status={ProductStatusEnum.Sold}
+                />
+              ),
               sort: false,
               setCellProps: () => ({
                 sx: {
@@ -109,26 +168,30 @@ export default function Stock() {
               customBodyRender: (value) => {
                 return (
                   <Stack direction="row" gap={0.5}>
-                    <IconButton
-                      onClick={() => {
-                        const dt = data?.find((d) => d.id === value);
-                        if (dt) {
-                          openUpdate(dt);
-                        }
-                      }}
-                    >
-                      <Edit fontSize="small" />
-                    </IconButton>
+                    <Tooltip title="Editar">
+                      <IconButton
+                        onClick={() => {
+                          const dt = data?.find((d) => d.id === value);
+                          if (dt) {
+                            openUpdate(dt);
+                          }
+                        }}
+                      >
+                        <Edit fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
 
-                    <IconButton
-                      onClick={() =>
-                        confirmDelete(
-                          async () => await mutateAsyncDelete(value)
-                        )
-                      }
-                    >
-                      <Delete fontSize="small" />
-                    </IconButton>
+                    <Tooltip title="Remover">
+                      <IconButton
+                        onClick={() =>
+                          confirmDelete(
+                            async () => await mutateAsyncDelete(value)
+                          )
+                        }
+                      >
+                        <Delete fontSize="small" color="error" />
+                      </IconButton>
+                    </Tooltip>
                   </Stack>
                 );
               },
@@ -140,7 +203,7 @@ export default function Stock() {
         isFetching={isFetching || isLoadingDelete}
         expandable={{
           renderExpandableRow: (dataIndex) => (
-            <TableProducts grupoId={data[dataIndex].id} />
+            <TableProducts grupoId={data[dataIndex].id} status={statusFilter} />
           ),
         }}
         pagination={false}

@@ -1,4 +1,4 @@
-import { Button, IconButton, Stack } from "@mui/material";
+import { Button, IconButton, Stack, Tooltip } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 
 import PageHeader from "@components/PageHeader";
@@ -60,26 +60,30 @@ export default function Supplier() {
               customBodyRender: (value) => {
                 return (
                   <Stack direction="row" gap={0.5}>
-                    <IconButton
-                      onClick={() => {
-                        const dt = data?.find((d) => d.id === value);
-                        if (dt) {
-                          openUpdate(dt);
-                        }
-                      }}
-                    >
-                      <Edit fontSize="small" />
-                    </IconButton>
+                    <Tooltip title="Editar">
+                      <IconButton
+                        onClick={() => {
+                          const dt = data?.find((d) => d.id === value);
+                          if (dt) {
+                            openUpdate(dt);
+                          }
+                        }}
+                      >
+                        <Edit fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
 
-                    <IconButton
-                      onClick={() =>
-                        confirmDelete(
-                          async () => await mutateAsyncDelete(value)
-                        )
-                      }
-                    >
-                      <Delete fontSize="small" />
-                    </IconButton>
+                    <Tooltip title="Remover">
+                      <IconButton
+                        onClick={() =>
+                          confirmDelete(
+                            async () => await mutateAsyncDelete(value)
+                          )
+                        }
+                      >
+                        <Delete fontSize="small" color="error" />
+                      </IconButton>
+                    </Tooltip>
                   </Stack>
                 );
               },

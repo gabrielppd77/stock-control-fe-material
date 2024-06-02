@@ -1,5 +1,5 @@
-import { Box, Button, IconButton, Stack, Tooltip } from "@mui/material";
-import { Circle, Delete, Edit } from "@mui/icons-material";
+import { Box, Button, Chip, IconButton, Stack, Tooltip } from "@mui/material";
+import { Delete, Edit } from "@mui/icons-material";
 
 import DataTable from "@components/DataTable";
 import {
@@ -21,10 +21,14 @@ import { useStockGroupsProducts } from "@libs/api/queries/stock/useStock";
 
 interface TableProductsProps {
   grupoId: string;
+  status: ProductStatusEnum[];
 }
 
-export default function TableProducts({ grupoId }: TableProductsProps) {
-  const { data, isLoading, isFetching } = useStockGroupsProducts(grupoId);
+export default function TableProducts({ grupoId, status }: TableProductsProps) {
+  const { data, isLoading, isFetching } = useStockGroupsProducts(
+    grupoId,
+    status
+  );
   const { mutateAsyncDelete, isLoadingDelete } = useProductDelete();
 
   const { open: openCreate, isOpen: isOpenCreate } = useDialogCreate();
@@ -70,17 +74,14 @@ export default function TableProducts({ grupoId }: TableProductsProps) {
                 },
               }),
               customBodyRender: (value: ProductStatusEnum) => (
-                <Box
+                <Chip
+                  label={ProductStatusEnumLabel[value]}
                   sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    color: ProductStatusEnumColor[value],
+                    backgroundColor: ProductStatusEnumColor[value],
+                    color: "common.white",
                   }}
-                >
-                  <Tooltip title={ProductStatusEnumLabel[value]}>
-                    <Circle fontSize="small" />
-                  </Tooltip>
-                </Box>
+                  size="small"
+                />
               ),
             },
           },
@@ -96,24 +97,30 @@ export default function TableProducts({ grupoId }: TableProductsProps) {
               }),
               customBodyRender: (value) => (
                 <Stack direction="row" gap={0.5}>
-                  <IconButton
-                    onClick={() => {
-                      const dt = data?.find((d) => d.id === value);
-                      if (dt) {
-                        openUpdate(dt);
-                      }
-                    }}
-                  >
-                    <Edit fontSize="small" />
-                  </IconButton>
+                  <Tooltip title="Editar">
+                    <IconButton
+                      onClick={() => {
+                        const dt = data?.find((d) => d.id === value);
+                        if (dt) {
+                          openUpdate(dt);
+                        }
+                      }}
+                    >
+                      <Edit fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
 
-                  <IconButton
-                    onClick={() =>
-                      confirmDelete(async () => await mutateAsyncDelete(value))
-                    }
-                  >
-                    <Delete fontSize="small" />
-                  </IconButton>
+                  <Tooltip title="Remover">
+                    <IconButton
+                      onClick={() =>
+                        confirmDelete(
+                          async () => await mutateAsyncDelete(value)
+                        )
+                      }
+                    >
+                      <Delete fontSize="small" color="error" />
+                    </IconButton>
+                  </Tooltip>
                 </Stack>
               ),
             },
