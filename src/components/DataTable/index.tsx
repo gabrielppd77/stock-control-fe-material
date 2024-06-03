@@ -6,6 +6,7 @@ import {
   LinearProgress,
   Paper,
   TableCell,
+  TableRow,
 } from "@mui/material";
 
 import MUIDataTable, { MUIDataTableColumnDef } from "mui-datatables";
@@ -82,15 +83,17 @@ export default function DataTable({
           },
           renderExpandableRow: expandable
             ? (rowData, { dataIndex }) => (
-                <TableCell
-                  padding={"none"}
-                  colSpan={rowData.length + 1}
-                  sx={{
-                    backgroundColor: "action.selected",
-                  }}
-                >
-                  {expandable.renderExpandableRow(dataIndex)}
-                </TableCell>
+                <TableRow>
+                  <TableCell
+                    padding={"none"}
+                    colSpan={rowData.length + 1}
+                    sx={{
+                      backgroundColor: "action.selected",
+                    }}
+                  >
+                    {expandable.renderExpandableRow(dataIndex)}
+                  </TableCell>
+                </TableRow>
               )
             : undefined,
         }}
