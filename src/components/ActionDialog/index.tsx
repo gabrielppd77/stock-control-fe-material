@@ -87,6 +87,7 @@ export default function ActionDialog({
           fullWidth
           variant="contained"
           onClick={() => onSubmit()}
+          onKeyDown={(e) => e.preventDefault()}
           loading={isLoading}
         >
           Salvar
