@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { create } from "./requests/create";
 import { update } from "./requests/update";
 import { remove } from "./requests/remove";
+import { multiplyProduct } from "./requests/multiplyProduct";
 
 import { extractError } from "@libs/alert";
 import { notifyCreate, notifyUpdate, notifyRemove } from "@libs/notification";
@@ -77,5 +78,31 @@ export function useProductDelete() {
   return {
     mutateAsyncDelete,
     isLoadingDelete,
+  };
+}
+
+export function useProductMultiplyProduct() {
+  const queryClient = useQueryClient();
+
+  const {
+    mutateAsync: mutateAsyncMultiplyProduct,
+    isPending: isLoadingMultiplyProduct,
+  } = useMutation({
+    mutationFn: multiplyProduct,
+    onSuccess: () => {
+      notifyCreate();
+      queryClient.invalidateQueries({
+        queryKey: queryStockGetGroups,
+      });
+      queryClient.invalidateQueries({
+        queryKey: queryStockGetProducts,
+      });
+    },
+    onError: extractError,
+  });
+
+  return {
+    mutateAsyncMultiplyProduct,
+    isLoadingMultiplyProduct,
   };
 }

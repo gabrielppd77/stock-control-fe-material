@@ -1,5 +1,5 @@
 import { Box, Button, Chip, IconButton, Stack, Tooltip } from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
+import { ContentCopy, Delete, Edit } from "@mui/icons-material";
 
 import DataTable from "@components/DataTable";
 import {
@@ -13,11 +13,13 @@ import FormUpdate from "./Product/FormUpdate";
 
 import { useDialogCreate } from "./Product/FormCreate/form";
 import { useDialogUpdate } from "./Product/FormUpdate/form";
+import { useDialogMultiply } from "./Product/FormMultiply/form";
 
 import { useProductDelete } from "@libs/api/queries/product/useProduct";
 
 import { confirmDelete } from "@libs/alert";
 import { useStockGroupsProducts } from "@libs/api/queries/stock/useStock";
+import FormMultiply from "./Product/FormMultiply";
 
 interface TableProductsProps {
   grupoId: string;
@@ -33,6 +35,7 @@ export default function TableProducts({ grupoId, status }: TableProductsProps) {
 
   const { open: openCreate, isOpen: isOpenCreate } = useDialogCreate();
   const { open: openUpdate, isOpen: isOpenUpdate } = useDialogUpdate();
+  const { open: openMultiply, isOpen: isOpenMultiply } = useDialogMultiply();
 
   return (
     <Stack gap={1}>
@@ -97,6 +100,19 @@ export default function TableProducts({ grupoId, status }: TableProductsProps) {
               }),
               customBodyRender: (value) => (
                 <Stack direction="row" gap={0.5}>
+                  <Tooltip title="Multiplicar">
+                    <IconButton
+                      onClick={() =>
+                        openMultiply({
+                          productId: value,
+                          quantity: 0,
+                        })
+                      }
+                    >
+                      <ContentCopy fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+
                   <Tooltip title="Editar">
                     <IconButton
                       onClick={() => {
@@ -133,6 +149,7 @@ export default function TableProducts({ grupoId, status }: TableProductsProps) {
       />
       {isOpenCreate && <FormCreate />}
       {isOpenUpdate && <FormUpdate />}
+      {isOpenMultiply && <FormMultiply />}
     </Stack>
   );
 }
